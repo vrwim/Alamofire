@@ -37,6 +37,7 @@
 * [Adapting and Retrying Requests with `RequestInterceptor`](#adapting-and-retrying-requests-with-requestinterceptor)
   + [`RequestAdapter`](#requestadapter)
   + [`RequestRetrier`](#requestretrier)
+  + [`AuthenticationInterceptor`](#authenticationinterceptor)
 * [Security](#security)
   + [Evaluating Server Trusts with `ServerTrustManager` and `ServerTrustEvaluating`](#evaluating-server-trusts-with-servertrustmanager-and-servertrustevaluating)
     - [`ServerTrustEvaluting`](#servertrustevaluting)
@@ -518,6 +519,83 @@ open func retry(_ request: Request, for session: Session, dueTo error: Error, co
         completion(.doNotRetry)
     }
 }
+```
+
+### `AuthenticationInterceptor`
+Alamofire's `AuthenticationInterceptor` class is a `RequestInterceptor` designed to handle the queueing and threading complexity involved with authenticating requests.
+It leverages an injected `Authenticator` protocol that manages the lifecycle of the matching `AuthenticationCredential`.
+Here is a simple example of how an `OAuthAuthenticator` class could be implemented along with an `OAuthCredential`.
+
+**`OAuthCredential`**
+
+```swift
+struct OAuthCredential: AuthenticationCredential {
+    let accessToken: String
+    let refreshToken: String
+    let userID: String
+    let expiration: Date
+
+    // Require refresh if within 5 minutes of expiration
+    var requiresRefresh: Bool { Date(timeIntervalSinceNow: 60 * 5) > expiration }
+}
+```
+
+**`OAuthAuthenticator`**
+
+```swift
+class OAuthAuthenticator: Authenticator {
+    func apply(_ credential: OAuthCredential, to urlRequest: inout URLRequest) {
+        urlRequest.headers.add(.authorization(bearerToken: credential.accessToken))
+    }
+
+    func refresh(_ credential: OAuthCredential,
+                 for session: Session,
+                 completion: @escaping (Result<OAuthCredential, Error>) -> Void) {
+        // Refresh the credential using the refresh token...then call completion with the new credential
+    }
+
+    func didRequest(_ urlRequest: URLRequest,
+                    with response: HTTPURLResponse,
+                    failDueToAuthenticationError error: Error) -> Bool {
+        // If authentication server CANNOT invalidate credentials, return `false`
+        return false
+
+        // If authentication server CAN invalidate credentials, then inspect the response matching against what the
+        // authentication server returns as an authentication failure. This is generally a 401 along with a custom
+        // header value.
+        // return response.statusCode == 401
+    }
+
+    func isRequest(_ urlRequest: URLRequest, authenticatedWith credential: OAuthCredential) -> Bool {
+        // If authentication server CANNOT invalidate credentials, return `true`
+        return true
+
+        // If authentication server CAN invalidate credentials, then compare the "Authorization" header value in the
+        // `URLRequest` against the Bearer token generated with the access token of the `Credential`.
+        // let bearerToken = HTTPHeader.authorization(bearerToken: credential.accessToken).value
+        // return urlRequest.headers["Authorization"] == bearerToken
+    }
+}
+```
+
+**Usage**
+
+```swift
+// Generally load from keychain if it exists
+let credential = OAuthCredential(accessToken: "a0",
+                                 refreshToken: "r0",
+                                 userID: "u0",
+                                 expiration: Date(timeIntervalSinceNow: 60 * 60))
+
+// Create the interceptor
+let authenticator = OAuthAuthenticator()
+let interceptor = AuthenticationInterceptor(authenticator: authenticator,
+                                            credential: credential)
+
+// Execute requests with the interceptor
+let session = Session()
+let urlRequest = URLRequest(url: URL(string: "https://api.example.com/example/user")!)
+session.request(urlRequest, interceptor: interceptor)
 ```
 
 ## Security
