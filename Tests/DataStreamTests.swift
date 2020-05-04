@@ -70,7 +70,7 @@ final class DataStreamTests: BaseTestCase {
         let expect = expectation(description: "stream should complete")
 
         // When
-        AF.streamRequest("https://httpbin.org/bytes/\(expectedSize)").responseStream { stream in
+        AF.streamRequest(URLRequest.makeHTTPBinRequest(path: "/bytes/\(expectedSize)")).responseStream { stream in
             switch stream.event {
             case let .stream(result):
                 streamOnMain = Thread.isMainThread
@@ -324,7 +324,7 @@ final class DataStreamTests: BaseTestCase {
         let expect = expectation(description: "stream should complete")
 
         // When
-        AF.streamRequest("https://httpbin.org/bytes/\(expectedSize)").responseStream { stream in
+        AF.streamRequest(URLRequest.makeHTTPBinRequest(path: "/bytes/\(expectedSize)")).responseStream { stream in
             switch stream.event {
             case .stream:
                 stream.cancel()
@@ -347,7 +347,7 @@ final class DataStreamTests: BaseTestCase {
         let expect = expectation(description: "stream should complete")
 
         // When
-        AF.streamRequest("https://httpbin.org/bytes/\(expectedSize)").responseStream { stream in
+        AF.streamRequest(URLRequest.makeHTTPBinRequest(path: "/bytes/\(expectedSize)")).responseStream { stream in
             switch stream.event {
             case .stream:
                 stream.token.cancel()
@@ -742,7 +742,7 @@ final class DataStreamLifetimeEvents: BaseTestCase {
                 }
             }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertEqual(request.state, .finished)

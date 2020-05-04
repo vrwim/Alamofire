@@ -26,7 +26,9 @@ import Alamofire
 import Foundation
 
 extension String {
-    static let httpBinURLString = "https://httpbin.org"
+    static let httpBinDomain = "127.0.0.1"
+    static let port = ":8080"
+    static let httpBinURLString = "http://\(httpBinDomain)\(port)"
 }
 
 extension URL {

@@ -153,7 +153,7 @@ final class RetryPolicyTestCase: BaseRetryPolicyTestCase {
                 expectation.fulfill()
             }
 
-            waitForExpectations(timeout: timeout, handler: nil)
+            waitForExpectations(timeout: timeout)
 
             request.prepareForRetry()
         }
@@ -191,7 +191,7 @@ final class RetryPolicyTestCase: BaseRetryPolicyTestCase {
                 expectation.fulfill()
             }
 
-            waitForExpectations(timeout: timeout, handler: nil)
+            waitForExpectations(timeout: timeout)
         }
 
         // Then
@@ -220,7 +220,7 @@ final class RetryPolicyTestCase: BaseRetryPolicyTestCase {
                 expectation.fulfill()
             }
 
-            waitForExpectations(timeout: timeout, handler: nil)
+            waitForExpectations(timeout: timeout)
         }
 
         // Then
@@ -250,7 +250,7 @@ final class RetryPolicyTestCase: BaseRetryPolicyTestCase {
                 expectation.fulfill()
             }
 
-            waitForExpectations(timeout: timeout, handler: nil)
+            waitForExpectations(timeout: timeout)
         }
 
         // Then
@@ -280,7 +280,7 @@ final class RetryPolicyTestCase: BaseRetryPolicyTestCase {
                 expectation.fulfill()
             }
 
-            waitForExpectations(timeout: timeout, handler: nil)
+            waitForExpectations(timeout: timeout)
         }
 
         // Then
@@ -314,7 +314,7 @@ final class RetryPolicyTestCase: BaseRetryPolicyTestCase {
                 expectation.fulfill()
             }
 
-            waitForExpectations(timeout: timeout, handler: nil)
+            waitForExpectations(timeout: timeout)
         }
 
         // Then
@@ -345,7 +345,7 @@ final class RetryPolicyTestCase: BaseRetryPolicyTestCase {
                 expectation.fulfill()
             }
 
-            waitForExpectations(timeout: timeout, handler: nil)
+            waitForExpectations(timeout: timeout)
 
             request.prepareForRetry()
         }

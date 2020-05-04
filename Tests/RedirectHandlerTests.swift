@@ -30,7 +30,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
     // MARK: - Properties
 
     private var redirectURLString: String { "https://www.apple.com/" }
-    private var urlString: String { "https://httpbin.org/redirect-to?url=\(redirectURLString)" }
+    private var urlString: String { "\(String.httpBinURLString)/redirect-to?url=\(redirectURLString)" }
 
     // MARK: - Tests - Per Request
 
@@ -47,7 +47,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -72,7 +72,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -101,7 +101,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -128,7 +128,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -153,7 +153,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -182,7 +182,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -209,7 +209,7 @@ final class RedirectHandlerTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)

@@ -70,7 +70,7 @@ class CacheTestCase: BaseTestCase {
     var urlCache: URLCache!
     var manager: Session!
 
-    let urlString = "https://httpbin.org/response-headers"
+    let urlString = "\(String.httpBinURLString)/response-headers"
     let requestTimeout: TimeInterval = 30
 
     var requests: [String: URLRequest] = [:]
@@ -207,7 +207,7 @@ class CacheTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         verifyResponse(response, forCacheControl: cacheControl, isCachedResponse: shouldReturnCachedResponse)
@@ -310,7 +310,7 @@ class CacheTestCase: BaseTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNil(response, "response should be nil")

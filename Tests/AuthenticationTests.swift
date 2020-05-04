@@ -58,7 +58,7 @@ class AuthenticationTestCase: BaseTestCase {
 class BasicAuthenticationTestCase: AuthenticationTestCase {
     override func setUp() {
         super.setUp()
-        urlString = "https://httpbin.org/basic-auth/\(user)/\(password)"
+        urlString = "\(String.httpBinURLString)/basic-auth/\(user)/\(password)"
     }
 
     func testHTTPBasicAuthenticationWithInvalidCredentials() {
@@ -75,7 +75,7 @@ class BasicAuthenticationTestCase: AuthenticationTestCase {
                 expectation.fulfill()
             }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -99,7 +99,7 @@ class BasicAuthenticationTestCase: AuthenticationTestCase {
                 expectation.fulfill()
             }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -111,7 +111,7 @@ class BasicAuthenticationTestCase: AuthenticationTestCase {
 
     func testHiddenHTTPBasicAuthentication() {
         // Given
-        let urlString = "http://httpbin.org/hidden-basic-auth/\(user)/\(password)"
+        let urlString = "\(String.httpBinURLString)/hidden-basic-auth/\(user)/\(password)"
         let expectation = self.expectation(description: "\(urlString) 200")
         let headers: HTTPHeaders = [.authorization(username: user, password: password)]
 
@@ -124,7 +124,7 @@ class BasicAuthenticationTestCase: AuthenticationTestCase {
                 expectation.fulfill()
             }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -142,7 +142,7 @@ class HTTPDigestAuthenticationTestCase: AuthenticationTestCase {
 
     override func setUp() {
         super.setUp()
-        urlString = "https://httpbin.org/digest-auth/\(qop)/\(user)/\(password)"
+        urlString = "\(String.httpBinURLString)/digest-auth/\(qop)/\(user)/\(password)"
     }
 
     func testHTTPDigestAuthenticationWithInvalidCredentials() {
@@ -159,7 +159,7 @@ class HTTPDigestAuthenticationTestCase: AuthenticationTestCase {
                 expectation.fulfill()
             }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
@@ -183,7 +183,7 @@ class HTTPDigestAuthenticationTestCase: AuthenticationTestCase {
                 expectation.fulfill()
             }
 
-        waitForExpectations(timeout: timeout, handler: nil)
+        waitForExpectations(timeout: timeout)
 
         // Then
         XCTAssertNotNil(response?.request)
